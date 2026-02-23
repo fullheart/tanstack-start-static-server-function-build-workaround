@@ -1,0 +1,20 @@
+export default {
+  plugins: ["prettier-plugin-tailwindcss"],
+  arrowParens: "avoid",
+  bracketSpacing: true,
+  endOfLine: "auto",
+  insertPragma: false,
+  jsxBracketSameLine: false,
+  jsxSingleQuote: false,
+  printWidth: 120,
+  proseWrap: "preserve",
+  quoteProps: "as-needed",
+  requirePragma: false,
+  semi: true,
+  singleQuote: false,
+  tabWidth: 2,
+  trailingComma: "none",
+  useTabs: false,
+  singleAttributePerLine: true,
+  tailwindFunctions: ["clsx", "tw", "cn"]
+};

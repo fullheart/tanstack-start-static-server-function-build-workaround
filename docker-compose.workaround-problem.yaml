@@ -1,0 +1,29 @@
+name: workaround-problem
+
+services:
+  http-server:
+    image: node:lts
+    command: sh -c "npx --yes http-server -p 8090 2>&1 | tee /tmp/http-server.log"
+    ports:
+      - "8090:8090"
+    volumes:
+      - "./remote-data:/var/www/html"
+    working_dir: /var/www/html
+    healthcheck:
+      test: ["CMD-SHELL", "grep -q 'Available on:' /tmp/http-server.log"]
+      interval: 2s
+      timeout: 1s
+      retries: 100
+      start_period: 1s
+
+  app:
+    depends_on:
+      http-server:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    command: sh -c "./scripts/cache-static-assets-during-build/build.sh && node .output/server/index.mjs"
+    ports:
+      - "3000:3000"
